@@ -10,7 +10,7 @@ nlp = spacy.load("en_core_web_sm")
 nlp.add_pipe("textrank")
 
 @app.route('/process-reviews', methods=['POST'])
-# @cache.cached(timeout=60*60)
+@cache.cached(timeout=60*60*24, key_prefix=lambda: request.data)
 def process_text():
     text = request.json['text']
 
