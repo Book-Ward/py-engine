@@ -9,7 +9,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 nlp = spacy.load("en_core_web_sm")
 nlp.add_pipe("textrank")
 
-@app.route('/process-reviews', methods=['POST'])
+@app.route('/reviews/process', methods=['POST'])
 @cache.cached(timeout=60*60*24, key_prefix=lambda: request.data)
 def process_text():
     text = request.json['text']
@@ -18,9 +18,7 @@ def process_text():
         return {'phrases': []}
 
     doc = nlp(text)
-
     phrases = [phrase.text for phrase in doc._.phrases[:10]]
-
     filter_phrases(phrases)
 
     return {'phrases': phrases}
