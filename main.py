@@ -9,9 +9,9 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 nlp = spacy.load("en_core_web_sm")
 nlp.add_pipe("textrank")
 
-@app.route('/reviews/process', methods=['POST'])
+@app.route('/key-phrases/extract', methods=['POST'])
 @cache.cached(timeout=60*60*24, key_prefix=lambda: request.data)
-def process_text():
+def extract_key_phrases():
     text = request.json['text']
 
     if (text is None):
